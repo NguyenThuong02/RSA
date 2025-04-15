@@ -13,7 +13,7 @@ class RSACryptosystem:
     def __init__(self, root):
         self.root = root
         self.root.title("RSA Cryptosystem")
-        self.root.geometry("1200x800")
+        self.root.geometry("1200x600")
 
         # Variables
         self.key_length = tk.StringVar(value="1024 bits")
@@ -51,17 +51,16 @@ class RSACryptosystem:
         header_frame.pack(fill=tk.X, pady=(0, 10))
 
         # Create blue background
-        header_bg = tk.Canvas(header_frame, height=150, bg="#1e3799", highlightthickness=0)
+        header_bg = tk.Canvas(header_frame, height=120, bg="#1e3799", highlightthickness=0)
         header_bg.pack(fill=tk.X)
 
         # Create white banner in the middle
         banner_height = 50
-        banner_y = (150 - banner_height) // 2
+        banner_y = (120 - banner_height) // 2
         banner = tk.Canvas(header_bg, height=banner_height, bg="white", highlightthickness=0)
         banner.place(relx=0.5, y=banner_y, relwidth=0.8, height=banner_height, anchor=tk.N)
-
-        # Add text to banner
-        banner.create_text(banner.winfo_reqwidth() // 2, banner_height // 2,
+        banner.update()
+        banner.create_text(banner.winfo_width() // 2, banner_height // 2,
                            text="RSA CRYPTOSYSTEM", font=("Arial", 20, "bold"))
 
         # Add network-like decoration
@@ -104,7 +103,7 @@ class RSACryptosystem:
         self.create_file_check_section(right_column)
 
         # Reset button at bottom
-        reset_btn = ttk.Button(self.root, text="RESET FORM", command=self.reset_form)
+        reset_btn = ttk.Button(self.root, text="RESET FORM", command=self.reset_form, width=20)
         reset_btn.pack(pady=10)
 
     def create_key_generation_section(self, parent):
@@ -160,7 +159,7 @@ class RSACryptosystem:
         button_frame = ttk.Frame(crypt_frame)
         button_frame.grid(row=2, column=0, columnspan=5, pady=10)
 
-        encrypt_btn = ttk.Button(button_frame, text="Mã Hoá", command=self.encrypt_file, style="Blue.TButton", width=15)
+        encrypt_btn = ttk.Button(button_frame, text="Mã Hoá", command=self.encrypt_file, width=15)
         encrypt_btn.pack(side=tk.LEFT, padx=10)
 
         decrypt_btn = ttk.Button(button_frame, text="Giải Mã", command=self.decrypt_file, width=15)
@@ -367,7 +366,7 @@ class RSACryptosystem:
         )
         if file_path:
             self.check_file_path.set(file_path)
-            self.check_file()
+            # self.check_file()
 
     def check_file(self):
         if not self.check_file_path.get():
@@ -452,7 +451,7 @@ class RSACryptosystem:
                         label=None
                     )
                 )
-                encrypted_chunks.append(encrypted_chunk) 
+                encrypted_chunks.append(encrypted_chunk)
 
             # Save encrypted file with .lhde extension instead of .enc
             file_name = os.path.basename(input_file)
