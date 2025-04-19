@@ -7,13 +7,14 @@ from cryptography.hazmat.primitives import serialization, hashes
 import xml.etree.ElementTree as ET
 import hashlib
 import math  # Add this import
+from PIL import Image, ImageTk
 
 
 class RSACryptosystem:
     def __init__(self, root):
         self.root = root
-        self.root.title("RSA Cryptosystem")
-        self.root.geometry("1200x600")
+        self.root.title("Trường đại học Hùng Vương")
+        self.root.geometry("1200x700")
 
         # Variables
         self.key_length = tk.StringVar(value="1024 bits")
@@ -46,25 +47,29 @@ class RSACryptosystem:
         self.create_ui()
 
     def create_header(self):
-        # Create a header frame
         header_frame = ttk.Frame(self.root)
         header_frame.pack(fill=tk.X, pady=(0, 10))
 
-        # Create blue background
-        header_bg = tk.Canvas(header_frame, height=120, bg="#1e3799", highlightthickness=0)
-        header_bg.pack(fill=tk.X)
+        try:
+            logo_path = "logo.png"
+            logo_image = Image.open(logo_path)
 
-        # Create white banner in the middle
-        banner_height = 50
-        banner_y = (120 - banner_height) // 2
-        banner = tk.Canvas(header_bg, height=banner_height, bg="white", highlightthickness=0)
-        banner.place(relx=0.5, y=banner_y, relwidth=0.8, height=banner_height, anchor=tk.N)
-        banner.update()
-        banner.create_text(banner.winfo_width() // 2, banner_height // 2,
-                           text="RSA CRYPTOSYSTEM", font=("Arial", 20, "bold"))
+            logo_image = logo_image.resize((800, 160), Image.LANCZOS)
+            logo_photo = ImageTk.PhotoImage(logo_image)
 
-        # Add network-like decoration
-        self.draw_network(header_bg)
+            logo_label = ttk.Label(header_frame, image=logo_photo, background="#f0f0f0")
+            logo_label.image = logo_photo
+            logo_label.pack(pady=5)
+
+        except Exception as e:
+            print(f"Error loading logo: {e}")
+            banner_label = ttk.Label(header_frame, text="TRƯỜNG ĐẠI HỌC HÙNG VƯƠNG",
+                                     font=("Arial", 20, "bold"), foreground="#d71920")
+            banner_label.pack(pady=10)
+
+            subtitle_label = ttk.Label(header_frame, text="Trường đại học đa cấp, đa ngành trên quê hương đất tổ",
+                                       font=("Arial", 12), foreground="#1e3799")
+            subtitle_label.pack(pady=5)
 
     def draw_network(self, canvas):
         # Draw some network-like lines and nodes for decoration
